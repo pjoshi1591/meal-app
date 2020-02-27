@@ -1,14 +1,28 @@
 import React from 'react';
-import { View, Text, StyleSheet, StyleSheet } from 'react-native';
 
-const CategorieMealScreen = props => {
+import MealList from '../components/MealList';
+import { CATEGORIES, MEALS } from '../data/dummy-data';
+
+const CategoryMealScreen = props => {
+
+    const id = props.navigation.getParam('categoryId');
+    const displayedMeals = MEALS.filter(
+        meal => meal.categoryIds.indexOf(id) >= 0
+    );
+    
     return (
-        <View>
-            <Text>The Categorie Meal Screen</Text>
-        </View>
+        <MealList listData={displayedMeals} navigation={props.navigation} />
     );
 };
 
-const styles = StyleSheet.create({});
+CategoryMealScreen.navigationOptions = navigationData  => {
+    const id = navigationData.navigation.getParam('categoryId');
+    const selectedCategory = CATEGORIES.find(cat => cat.id === id);
 
-export default CategorieMealScreen;
+    return {
+        headerTitle: selectedCategory.title
+    }
+};
+
+
+export default CategoryMealScreen;
